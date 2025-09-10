@@ -250,23 +250,23 @@ SDD（规范驱动开发）建立在十个核心概念之上，这些概念构�
 
 **示例**：
 ```yaml
-user_rules:
-  admin:
-    permissions:
-      - create_user
-      - delete_user
-      - modify_system_settings
-    constraints:
-      - cannot_delete_self
-      - requires_2fa_for_critical_operations
+用户规则:
+  管理员:
+    权限:
+      - 创建用户
+      - 删除用户
+      - 修改系统设置
+    约束:
+      - 不能删除自己
+      - 关键操作需要双重验证
   
-  regular_user:
-    permissions:
-      - view_own_data
-      - edit_own_profile
-    constraints:
-      - cannot_access_admin_panel
-      - rate_limited_api_calls
+  普通用户:
+    权限:
+      - 查看个人数据
+      - 编辑个人资料
+    约束:
+      - 不能访问管理面板
+      - API调用有频率限制
 ```
 
 #### 2. Project Rules（项目规则）
@@ -281,21 +281,21 @@ user_rules:
 
 **示例**：
 ```yaml
-project_rules:
-  code_standards:
-    naming_convention: "camelCase"
-    max_function_length: 50
-    test_coverage_minimum: 80
+项目规则:
+  代码标准:
+    命名规范: "驼峰命名法"
+    函数最大长度: 50
+    测试覆盖率最低要求: 80
   
-  architecture:
-    pattern: "microservices"
-    database: "postgresql"
-    cache: "redis"
+  架构:
+    模式: "微服务"
+    数据库: "postgresql"
+    缓存: "redis"
   
-  security:
-    authentication: "jwt"
-    encryption: "aes-256"
-    audit_logging: true
+  安全:
+    身份验证: "jwt"
+    加密方式: "aes-256"
+    审计日志: true
 ```
 
 #### 3. Structure（结构）
@@ -310,21 +310,21 @@ project_rules:
 
 **示例**：
 ```yaml
-structure:
-  layers:
-    - presentation: "web_ui, mobile_app"
-    - business: "user_service, order_service"
-    - data: "user_repository, order_repository"
-    - infrastructure: "database, cache, message_queue"
+结构:
+  分层:
+    - 表现层: "网页界面, 移动应用"
+    - 业务层: "用户服务, 订单服务"
+    - 数据层: "用户仓储, 订单仓储"
+    - 基础设施层: "数据库, 缓存, 消息队列"
   
-  modules:
-    user_service:
-      dependencies: ["user_repository", "auth_service"]
-      interfaces: ["user_api", "user_events"]
+  模块:
+    用户服务:
+      依赖: ["用户仓储", "认证服务"]
+      接口: ["用户API", "用户事件"]
     
-    order_service:
-      dependencies: ["order_repository", "payment_service"]
-      interfaces: ["order_api", "order_events"]
+    订单服务:
+      依赖: ["订单仓储", "支付服务"]
+      接口: ["订单API", "订单事件"]
 ```
 
 #### 4. Data Model（数据模型）
@@ -339,25 +339,25 @@ structure:
 
 **示例**：
 ```yaml
-data_model:
-  entities:
-    User:
-      attributes:
-        id: {type: "uuid", primary_key: true}
-        email: {type: "string", unique: true, required: true}
-        created_at: {type: "timestamp", auto_generated: true}
+数据模型:
+  实体:
+    用户:
+      属性:
+        编号: {类型: "uuid", 主键: true}
+        邮箱: {类型: "string", 唯一: true, 必填: true}
+        创建时间: {类型: "timestamp", 自动生成: true}
       
-      relationships:
-        orders: {type: "one_to_many", target: "Order"}
+      关系:
+        订单: {类型: "一对多", 目标: "订单"}
     
-    Order:
-      attributes:
-        id: {type: "uuid", primary_key: true}
-        user_id: {type: "uuid", foreign_key: "User.id"}
-        total_amount: {type: "decimal", precision: 10, scale: 2}
+    订单:
+      属性:
+        编号: {类型: "uuid", 主键: true}
+        用户编号: {类型: "uuid", 外键: "用户.编号"}
+        总金额: {类型: "decimal", 精度: 10, 小数位: 2}
       
-      constraints:
-        - total_amount_positive: "total_amount > 0"
+      约束:
+        - 总金额为正: "总金额 > 0"
 ```
 
 #### 5. API Specification（API规范）
@@ -372,32 +372,32 @@ data_model:
 
 **示例**：
 ```yaml
-api_specification:
-  endpoints:
-    create_user:
-      method: POST
-      path: "/api/users"
-      request_body:
-        type: "object"
-        properties:
-          email: {type: "string", format: "email"}
-          password: {type: "string", minLength: 8}
+API规范:
+  端点:
+    创建用户:
+      方法: POST
+      路径: "/api/users"
+      请求体:
+        类型: "object"
+        属性:
+          邮箱: {类型: "string", 格式: "email"}
+          密码: {类型: "string", 最小长度: 8}
       
-      responses:
+      响应:
         201:
-          description: "User created successfully"
-          body:
-            type: "object"
-            properties:
-              id: {type: "string"}
-              email: {type: "string"}
+          描述: "用户创建成功"
+          内容:
+            类型: "object"
+            属性:
+              编号: {类型: "string"}
+              邮箱: {类型: "string"}
         
         400:
-          description: "Invalid input"
-          body:
-            type: "object"
-            properties:
-              error: {type: "string"}
+          描述: "输入无效"
+          内容:
+            类型: "object"
+            属性:
+              错误: {类型: "string"}
 ```
 
 #### 6. Business Logic（业务逻辑）
@@ -412,29 +412,29 @@ api_specification:
 
 **示例**：
 ```yaml
-business_logic:
-  order_processing:
-    rules:
-      - inventory_check: "product.stock >= order.quantity"
-      - payment_validation: "payment.amount == order.total"
-      - discount_calculation: "if user.vip then discount = 0.1 else discount = 0"
+业务逻辑:
+  订单处理:
+    规则:
+      - 库存检查: "产品.库存 >= 订单.数量"
+      - 支付验证: "支付.金额 == 订单.总额"
+      - 折扣计算: "如果 用户.VIP 则 折扣 = 0.1 否则 折扣 = 0"
     
-    workflow:
-      1. validate_order_data
-      2. check_inventory
-      3. calculate_total
-      4. process_payment
-      5. update_inventory
-      6. send_confirmation
+    工作流程:
+      1. 验证订单数据
+      2. 检查库存
+      3. 计算总额
+      4. 处理支付
+      5. 更新库存
+      6. 发送确认
     
-    exceptions:
-      insufficient_stock:
-        action: "reject_order"
-        message: "Product out of stock"
+    异常:
+      库存不足:
+        操作: "拒绝订单"
+        消息: "产品缺货"
       
-      payment_failed:
-        action: "hold_order"
-        message: "Payment processing failed"
+      支付失败:
+        操作: "暂停订单"
+        消息: "支付处理失败"
 ```
 
 #### 7. UI/UX Guidelines（用户界面/用户体验指南）
@@ -449,29 +449,29 @@ business_logic:
 
 **示例**：
 ```yaml
-ui_ux_guidelines:
-  design_principles:
-    - simplicity: "Keep interfaces clean and uncluttered"
-    - consistency: "Use consistent patterns across the application"
-    - feedback: "Provide clear feedback for user actions"
+界面体验指南:
+  设计原则:
+    - 简洁性: "保持界面清洁整齐"
+    - 一致性: "在应用中使用一致的模式"
+    - 反馈性: "为用户操作提供清晰反馈"
   
-  components:
-    button:
-      primary:
-        background_color: "#007bff"
-        text_color: "#ffffff"
-        border_radius: "4px"
+  组件:
+    按钮:
+      主要:
+        背景色: "#007bff"
+        文字色: "#ffffff"
+        圆角: "4px"
       
-      secondary:
-        background_color: "#6c757d"
-        text_color: "#ffffff"
-        border_radius: "4px"
+      次要:
+        背景色: "#6c757d"
+        文字色: "#ffffff"
+        圆角: "4px"
   
-  interactions:
-    form_validation:
-      real_time: true
-      error_display: "inline"
-      success_feedback: "checkmark_icon"
+  交互:
+    表单验证:
+      实时验证: true
+      错误显示: "内联"
+      成功反馈: "勾选图标"
 ```
 
 #### 8. Testing Strategy（测试策略）
@@ -486,27 +486,27 @@ ui_ux_guidelines:
 
 **示例**：
 ```yaml
-testing_strategy:
-  levels:
-    unit_tests:
-      coverage_target: 90
-      tools: ["jest", "pytest"]
-      run_frequency: "on_every_commit"
+测试策略:
+  层次:
+    单元测试:
+      覆盖率目标: 90
+      工具: ["jest", "pytest"]
+      运行频率: "每次提交"
     
-    integration_tests:
-      coverage_target: 80
-      tools: ["postman", "cypress"]
-      run_frequency: "on_pull_request"
+    集成测试:
+      覆盖率目标: 80
+      工具: ["postman", "cypress"]
+      运行频率: "拉取请求时"
     
-    e2e_tests:
-      coverage_target: 70
-      tools: ["selenium", "playwright"]
-      run_frequency: "before_release"
+    端到端测试:
+      覆盖率目标: 70
+      工具: ["selenium", "playwright"]
+      运行频率: "发布前"
   
-  automation:
-    ci_cd_integration: true
-    parallel_execution: true
-    test_data_management: "automated"
+  自动化:
+    持续集成集成: true
+    并行执行: true
+    测试数据管理: "自动化"
 ```
 
 #### 9. Security Requirements（安全要求）
@@ -521,29 +521,29 @@ testing_strategy:
 
 **示例**：
 ```yaml
-security_requirements:
-  authentication:
-    method: "multi_factor"
-    session_timeout: 3600
-    password_policy:
-      min_length: 12
-      require_special_chars: true
-      require_numbers: true
+安全要求:
+  身份验证:
+    方法: "多重验证"
+    会话超时: 3600
+    密码策略:
+      最小长度: 12
+      需要特殊字符: true
+      需要数字: true
   
-  authorization:
-    model: "rbac"
-    principle: "least_privilege"
-    audit_trail: true
+  授权:
+    模型: "基于角色的访问控制"
+    原则: "最小权限"
+    审计跟踪: true
   
-  data_protection:
-    encryption_at_rest: "aes_256"
-    encryption_in_transit: "tls_1_3"
-    pii_handling: "gdpr_compliant"
+  数据保护:
+    静态加密: "aes_256"
+    传输加密: "tls_1_3"
+    个人信息处理: "GDPR合规"
   
-  monitoring:
-    intrusion_detection: true
-    vulnerability_scanning: "weekly"
-    security_logging: "comprehensive"
+  监控:
+    入侵检测: true
+    漏洞扫描: "每周"
+    安全日志: "全面"
 ```
 
 #### 10. Performance Criteria（性能标准）
@@ -558,27 +558,27 @@ security_requirements:
 
 **示例**：
 ```yaml
-performance_criteria:
-  response_time:
-    api_endpoints: "< 200ms"
-    database_queries: "< 100ms"
-    page_load: "< 2s"
+性能标准:
+  响应时间:
+    API端点: "< 200ms"
+    数据库查询: "< 100ms"
+    页面加载: "< 2s"
   
-  throughput:
-    concurrent_users: 10000
-    requests_per_second: 5000
-    transactions_per_minute: 50000
+  吞吐量:
+    并发用户: 10000
+    每秒请求数: 5000
+    每分钟事务数: 50000
   
-  resource_utilization:
-    cpu_usage: "< 70%"
-    memory_usage: "< 80%"
-    disk_io: "< 60%"
+  资源利用:
+    CPU使用率: "< 70%"
+    内存使用率: "< 80%"
+    磁盘IO: "< 60%"
   
-  scalability:
-    horizontal_scaling: true
-    auto_scaling_triggers:
-      cpu_threshold: 70
-      memory_threshold: 80
+  可扩展性:
+    水平扩展: true
+    自动扩展触发器:
+      CPU阈值: 70
+      内存阈值: 80
 ```
 
 ### 概念间的关系和协作
@@ -587,20 +587,20 @@ performance_criteria:
 
 ```mermaid
 graph TD
-    UR[User Rules] --> BL[Business Logic]
-    PR[Project Rules] --> S[Structure]
-    S --> DM[Data Model]
-    S --> API[API Specification]
-    DM --> BL
-    API --> BL
-    BL --> UI[UI/UX Guidelines]
-    UR --> UI
-    PR --> TS[Testing Strategy]
-    PR --> SR[Security Requirements]
-    PR --> PC[Performance Criteria]
-    TS --> BL
-    SR --> API
-    PC --> S
+    UR["用户规则<br/>User Rules"] -->|"指导"| BL["业务逻辑<br/>Business Logic"]
+    PR["项目规则<br/>Project Rules"] -->|"定义"| S["结构<br/>Structure"]
+    S -->|"包含"| DM["数据模型<br/>Data Model"]
+    S -->|"包含"| API["API规范<br/>API Specification"]
+    DM -->|"支撑"| BL
+    API -->|"实现"| BL
+    BL -->|"驱动"| UI["UI/UX指南<br/>UI/UX Guidelines"]
+    UR -->|"影响"| UI
+    PR -->|"制定"| TS["测试策略<br/>Testing Strategy"]
+    PR -->|"制定"| SR["安全要求<br/>Security Requirements"]
+    PR -->|"制定"| PC["性能标准<br/>Performance Criteria"]
+    TS -->|"验证"| BL
+    SR -->|"约束"| API
+    PC -->|"约束"| S
     
     style UR fill:#e1f5fe
     style PR fill:#f3e5f5
@@ -721,41 +721,41 @@ graph LR
 **1. 规范优先原则**
 ```yaml
 # 示例：用户注册功能规范
-user_registration_spec:
-  description: "用户通过邮箱和密码注册账户"
+用户注册规范:
+  描述: "用户通过邮箱和密码注册账户"
   
-  inputs:
-    email:
-      type: "string"
-      format: "email"
-      required: true
-      validation: "must be unique in system"
+  输入:
+    邮箱:
+      类型: "string"
+      格式: "email"
+      必填: true
+      验证: "系统中必须唯一"
     
-    password:
-      type: "string"
-      min_length: 8
-      required: true
-      validation: "must contain uppercase, lowercase, number"
+    密码:
+      类型: "string"
+      最小长度: 8
+      必填: true
+      验证: "必须包含大写、小写、数字"
   
-  outputs:
-    success:
-      user_id: "uuid"
-      message: "Registration successful"
+  输出:
+    成功:
+      用户ID: "uuid"
+      消息: "注册成功"
     
-    failure:
-      error_code: "string"
-      error_message: "string"
+    失败:
+      错误代码: "string"
+      错误消息: "string"
   
-  business_rules:
-    - "Email must not already exist in the system"
-    - "Password must meet security requirements"
-    - "User account is created in 'pending' status"
-    - "Verification email is sent automatically"
+  业务规则:
+    - "邮箱在系统中必须唯一"
+    - "密码必须满足安全要求"
+    - "用户账户创建时状态为'待验证'"
+    - "自动发送验证邮件"
   
-  side_effects:
-    - "Create user record in database"
-    - "Send verification email"
-    - "Log registration attempt"
+  副作用:
+    - "在数据库中创建用户记录"
+    - "发送验证邮件"
+    - "记录注册尝试日志"
 ```
 
 **2. 规范验证机制**
@@ -851,123 +851,123 @@ def register_user():
 这是Kiro推荐的规范编写框架，确保规范的完整性和可执行性：
 
 ```yaml
-spec_template:
-  name: "功能名称"
-  description: "功能描述"
+规范模板:
+  名称: "功能名称"
+  描述: "功能描述"
   
-  given:
+  给定:
     # 前置条件和上下文
-    preconditions: []
-    context: {}
-    assumptions: []
+    前置条件: []
+    上下文: {}
+    假设: []
   
-  when:
+  当:
     # 触发条件和输入
-    trigger: ""
-    inputs: {}
-    user_actions: []
+    触发器: ""
+    输入: {}
+    用户操作: []
   
-  then:
+  那么:
     # 期望的输出和行为
-    outputs: {}
-    side_effects: []
-    state_changes: []
+    输出: {}
+    副作用: []
+    状态变化: []
   
-  shall:
+  应当:
     # 必须满足的约束和规则
-    business_rules: []
-    quality_requirements: []
-    compliance_requirements: []
+    业务规则: []
+    质量要求: []
+    合规要求: []
 ```
 
 **2. 实际应用示例**
 
 ```yaml
 # 电商订单处理规范
-order_processing_spec:
-  name: "订单处理"
-  description: "用户提交订单后的完整处理流程"
+订单处理规范:
+  名称: "订单处理"
+  描述: "用户提交订单后的完整处理流程"
   
-  given:
-    preconditions:
+  给定:
+    前置条件:
       - "用户已登录"
       - "购物车中有商品"
       - "商品库存充足"
     
-    context:
-      user_type: "registered_user"
-      cart_status: "not_empty"
-      inventory_status: "available"
+    上下文:
+      用户类型: "注册用户"
+      购物车状态: "非空"
+      库存状态: "可用"
     
-    assumptions:
+    假设:
       - "支付系统正常运行"
       - "库存数据实时更新"
   
-  when:
-    trigger: "用户点击'提交订单'按钮"
+  当:
+    触发器: "用户点击'提交订单'按钮"
     
-    inputs:
-      shipping_address:
-        type: "object"
-        required: true
-        properties:
-          street: {type: "string", required: true}
-          city: {type: "string", required: true}
-          postal_code: {type: "string", required: true}
+    输入:
+      收货地址:
+        类型: "object"
+        必填: true
+        属性:
+          街道: {类型: "string", 必填: true}
+          城市: {类型: "string", 必填: true}
+          邮政编码: {类型: "string", 必填: true}
       
-      payment_method:
-        type: "string"
-        enum: ["credit_card", "paypal", "bank_transfer"]
-        required: true
+      支付方式:
+        类型: "string"
+        枚举: ["信用卡", "支付宝", "银行转账"]
+        必填: true
       
-      delivery_option:
-        type: "string"
-        enum: ["standard", "express", "overnight"]
-        default: "standard"
+      配送选项:
+        类型: "string"
+        枚举: ["标准", "快递", "隔夜"]
+        默认: "标准"
     
-    user_actions:
+    用户操作:
       - "填写配送地址"
       - "选择支付方式"
       - "确认订单信息"
   
-  then:
-    outputs:
-      success_case:
-        order_id: {type: "uuid"}
-        order_status: {value: "confirmed"}
-        estimated_delivery: {type: "datetime"}
-        total_amount: {type: "decimal"}
+  那么:
+    输出:
+      成功情况:
+        订单编号: {类型: "uuid"}
+        订单状态: {值: "已确认"}
+        预计送达: {类型: "datetime"}
+        总金额: {类型: "decimal"}
       
-      failure_case:
-        error_code: {type: "string"}
-        error_message: {type: "string"}
-        suggested_action: {type: "string"}
+      失败情况:
+        错误代码: {类型: "string"}
+        错误消息: {类型: "string"}
+        建议操作: {类型: "string"}
     
-    side_effects:
+    副作用:
       - "减少商品库存"
       - "创建订单记录"
       - "发送确认邮件"
       - "通知仓库备货"
       - "记录用户行为日志"
     
-    state_changes:
+    状态变化:
       - "购物车状态：清空"
       - "用户状态：有待处理订单"
       - "商品状态：库存减少"
   
-  shall:
-    business_rules:
+  应当:
+    业务规则:
       - "订单总金额必须大于0"
       - "配送地址必须在服务范围内"
       - "支付金额必须等于订单总金额"
       - "库存不足时必须拒绝订单"
     
-    quality_requirements:
+    质量要求:
       - "订单处理时间不超过5秒"
       - "系统可用性99.9%"
       - "数据一致性保证"
     
-    compliance_requirements:
+    合规要求:
       - "符合PCI DSS支付安全标准"
       - "遵守GDPR数据保护规定"
       - "满足税务合规要求"
@@ -981,76 +981,76 @@ order_processing_spec:
 
 ```yaml
 # API端点规范模板
-api_endpoint_template:
-  endpoint: "/api/resource"
-  method: "POST|GET|PUT|DELETE"
+API端点模板:
+  端点: "/api/resource"
+  方法: "POST|GET|PUT|DELETE"
   
-  authentication:
-    required: true|false
-    type: "bearer|basic|oauth"
+  身份验证:
+    必需: true|false
+    类型: "bearer|basic|oauth"
   
-  authorization:
-    roles: []
-    permissions: []
+  授权:
+    角色: []
+    权限: []
   
-  request:
-    headers: {}
-    parameters: {}
-    body: {}
+  请求:
+    头部: {}
+    参数: {}
+    主体: {}
   
-  response:
-    success: {}
-    errors: {}
+  响应:
+    成功: {}
+    错误: {}
   
-  validation:
-    input_rules: []
-    business_rules: []
+  验证:
+    输入规则: []
+    业务规则: []
   
-  performance:
-    max_response_time: "200ms"
-    rate_limit: "100/minute"
+  性能:
+    最大响应时间: "200ms"
+    速率限制: "100/minute"
 ```
 
 **2. 分层规范定义**
 
 ```yaml
 # 分层规范示例
-user_management_system:
+用户管理系统:
   # 系统级规范
-  system_level:
-    architecture: "microservices"
-    database: "postgresql"
-    authentication: "jwt"
+  系统级:
+    架构: "微服务"
+    数据库: "postgresql"
+    身份验证: "jwt"
   
   # 服务级规范
-  service_level:
-    user_service:
-      responsibilities: ["user_crud", "authentication"]
-      dependencies: ["database", "email_service"]
-      apis: ["user_api"]
+  服务级:
+    用户服务:
+      职责: ["用户增删改查", "身份验证"]
+      依赖: ["数据库", "邮件服务"]
+      接口: ["用户API"]
   
   # 功能级规范
-  feature_level:
-    user_registration:
+  功能级:
+    用户注册:
       # 详细的功能规范
-      spec: "..."
+      规范: "..."
     
-    user_login:
+    用户登录:
       # 详细的功能规范
-      spec: "..."
+      规范: "..."
 ```
 
 **3. 规范版本管理**
 
 ```yaml
 # 规范版本控制
-spec_metadata:
-  version: "1.2.0"
-  created_by: "product_manager"
-  created_at: "2024-01-15"
-  last_modified: "2024-01-20"
+规范元数据:
+  版本: "1.2.0"
+  创建者: "产品经理"
+  创建时间: "2024-01-15"
+  最后修改: "2024-01-20"
   
-  changelog:
+  变更日志:
     "1.2.0":
       - "添加了新的支付方式"
       - "优化了错误处理逻辑"
@@ -1128,35 +1128,35 @@ sequenceDiagram
 **1. 规范审查流程**
 
 ```yaml
-spec_review_process:
-  stages:
-    initial_review:
-      reviewers: ["tech_lead", "product_owner"]
-      criteria:
+规范评审流程:
+  阶段:
+    初始评审:
+      评审员: ["技术负责人", "产品负责人"]
+      标准:
         - "业务需求完整性"
         - "技术可行性"
         - "规范格式正确性"
       
-      approval_threshold: "2/2"
+      通过阈值: "2/2"
     
-    detailed_review:
-      reviewers: ["senior_developer", "qa_lead", "architect"]
-      criteria:
+    详细评审:
+      评审员: ["高级开发者", "测试负责人", "架构师"]
+      标准:
         - "技术实现细节"
         - "测试覆盖度"
         - "性能要求合理性"
         - "安全要求完备性"
       
-      approval_threshold: "2/3"
+      通过阈值: "2/3"
     
-    final_approval:
-      reviewers: ["project_manager"]
-      criteria:
+    最终批准:
+      评审员: ["项目经理"]
+      标准:
         - "整体一致性"
         - "资源投入合理性"
         - "时间计划可行性"
       
-      approval_threshold: "1/1"
+      通过阈值: "1/1"
 ```
 
 **2. 自动化质量检查**
@@ -1221,24 +1221,24 @@ class SpecQualityChecker:
 **3. 规范变更管理**
 
 ```yaml
-spec_change_management:
-  change_types:
-    breaking_change:
-      definition: "影响现有API或数据结构的变更"
-      approval_required: ["tech_lead", "product_owner", "architect"]
-      notification_scope: "all_stakeholders"
+规范变更管理:
+  变更类型:
+    破坏性变更:
+      定义: "影响现有API或数据结构的变更"
+      需要批准: ["技术负责人", "产品负责人", "架构师"]
+      通知范围: "所有利益相关者"
       
-    feature_addition:
-      definition: "新增功能或能力"
-      approval_required: ["tech_lead", "product_owner"]
-      notification_scope: "development_team"
+    功能新增:
+      定义: "新增功能或能力"
+      需要批准: ["技术负责人", "产品负责人"]
+      通知范围: "开发团队"
     
-    bug_fix:
-      definition: "修复现有功能的问题"
-      approval_required: ["tech_lead"]
-      notification_scope: "development_team"
+    缺陷修复:
+      定义: "修复现有功能的问题"
+      需要批准: ["技术负责人"]
+      通知范围: "开发团队"
   
-  change_process:
+  变更流程:
     1. "提交变更请求"
     2. "影响分析评估"
     3. "相关方审批"

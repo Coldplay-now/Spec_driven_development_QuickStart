@@ -75,12 +75,12 @@
 **1. 可执行性（Executable）**
 ```yaml
 # 示例：用户登录规范
-feature: 用户登录
-  scenario: 成功登录
-    given: 用户已注册
-    when: 输入正确的用户名和密码
-    then: 系统返回登录成功状态
-    and: 生成有效的访问令牌
+功能: 用户登录
+  场景: 成功登录
+    假设: 用户已注册
+    当: 输入正确的用户名和密码
+    那么: 系统返回登录成功状态
+    并且: 生成有效的访问令牌
 ```
 
 **2. 可验证性（Verifiable）**
@@ -272,14 +272,14 @@ SDD特别适合非职业程序员，因为它：
 **示例**：
 ```yaml
 # 不是描述设计，而是设计本身
-user_service:
-  authentication:
-    method: JWT
-    expiry: 24h
-    refresh: true
-  authorization:
-    model: RBAC
-    permissions: [read, write, admin]
+用户服务:
+  身份验证:
+    方法: JWT
+    过期时间: 24h
+    刷新: true
+  授权:
+    模型: RBAC
+    权限: [读取, 写入, 管理员]
 ```
 
 ### 原则2：验证即质量（Verification as Quality）
@@ -294,12 +294,12 @@ user_service:
 **示例**：
 ```gherkin
 # 验证用例先于实现
-Scenario: 用户密码重置
-  Given 用户忘记了密码
-  When 用户请求密码重置
-  Then 系统发送重置邮件
-  And 邮件包含有效的重置链接
-  And 链接24小时内有效
+场景: 用户密码重置
+  假设 用户忘记了密码
+  当 用户请求密码重置
+  那么 系统发送重置邮件
+  并且 邮件包含有效的重置链接
+  并且 链接24小时内有效
 ```
 
 ### 原则3：自动化即效率（Automation as Efficiency）
@@ -314,13 +314,13 @@ Scenario: 用户密码重置
 **示例**：
 ```yaml
 # 自动化流程定义
-automation:
-  code_generation:
-    trigger: specification_change
-    target: [api, models, tests]
-  deployment:
-    trigger: tests_passed
-    environment: [staging, production]
+自动化:
+  代码生成:
+    触发器: 规范变更
+    目标: [接口, 模型, 测试]
+  部署:
+    触发器: 测试通过
+    环境: [预发布, 生产]
 ```
 
 ### 原则4：迭代即改进（Iteration as Improvement）
@@ -335,8 +335,8 @@ automation:
 **示例**：
 ```yaml
 # 规范版本管理
-version: 2.1.0
-changelog:
+版本: 2.1.0
+变更日志:
   - 2.1.0: 增加用户权限管理
   - 2.0.0: 重构认证机制
   - 1.0.0: 初始版本
@@ -354,10 +354,10 @@ changelog:
 **示例**：
 ```yaml
 # 简单清晰的规范
-api:
-  endpoint: /users
-  methods: [GET, POST, PUT, DELETE]
-  auth: required
+接口:
+  端点: /users
+  方法: [GET, POST, PUT, DELETE]
+  认证: 必需
 ```
 
 ### 原则6：可观察即可控（Observability as Control）
@@ -372,14 +372,14 @@ api:
 **示例**：
 ```yaml
 # 可观察性规范
-logging:
-  level: INFO
-  format: JSON
-  fields: [timestamp, user_id, action, result]
-metrics:
-  - response_time
-  - error_rate
-  - user_activity
+日志:
+  级别: INFO
+  格式: JSON
+  字段: [时间戳, 用户ID, 操作, 结果]
+指标:
+  - 响应时间
+  - 错误率
+  - 用户活动
 ```
 
 ### 原则7：协作即力量（Collaboration as Power）
@@ -394,11 +394,11 @@ metrics:
 **示例**：
 ```yaml
 # 协作友好的规范
-stakeholders:
-  product_manager: 定义业务需求
-  designer: 设计用户体验
-  developer: 实现技术方案
-  tester: 验证功能质量
+利益相关者:
+  产品经理: 定义业务需求
+  设计师: 设计用户体验
+  开发者: 实现技术方案
+  测试员: 验证功能质量
 ```
 
 ### 原则8：反馈即学习（Feedback as Learning）
@@ -413,11 +413,11 @@ stakeholders:
 **示例**：
 ```yaml
 # 反馈机制
-feedback:
-  user_testing: weekly
-  performance_monitoring: real_time
-  code_review: per_commit
-  retrospective: sprint_end
+反馈:
+  用户测试: 每周
+  性能监控: 实时
+  代码评审: 每次提交
+  回顾会议: 冲刺结束
 ```
 
 ### 原则9：价值即目标（Value as Goal）
@@ -432,10 +432,10 @@ feedback:
 **示例**：
 ```yaml
 # 价值导向的规范
-value_proposition:
-  user_benefit: 提升工作效率50%
-  business_impact: 减少客服成本30%
-  technical_debt: 降低维护成本20%
+价值主张:
+  用户收益: 提升工作效率50%
+  业务影响: 减少客服成本30%
+  技术债务: 降低维护成本20%
 ```
 
 ## 1.7 SDD思维模式的转变
