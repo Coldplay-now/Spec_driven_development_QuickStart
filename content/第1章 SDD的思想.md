@@ -148,44 +148,39 @@ SDD的标准工作流程包含四个核心阶段：
 ```mermaid
 sequenceDiagram
     participant PM as 产品经理
-    participant Dev as 开发者
     participant AI as AI助手
-    participant QA as 测试工程师
-    participant User as 用户
     
-    Note over PM,User: 阶段1：需求规范化
-    PM->>Dev: 提供用户故事和业务需求
-    Dev->>Dev: 需求分析和澄清
-    Dev->>Dev: 用例设计和场景梳理
-    Dev->>Dev: 接口定义和数据建模
-    Dev->>PM: 验收标准制定
-    PM->>Dev: 确认功能规范
+    Note over PM,AI: 阶段1：需求规范化
+    PM->>AI: 提供用户故事和业务需求
+    AI->>AI: 需求分析和澄清
+    AI->>AI: 用例设计和场景梳理
+    AI->>AI: 接口定义和数据建模
+    AI->>PM: 验收标准制定
+    PM->>AI: 确认功能规范
     
-    Note over PM,User: 阶段2：智能代码生成
-    Dev->>AI: 提供功能规范和架构约束
-    AI->>AI: AI辅助代码生成
+    Note over PM,AI: 阶段2：智能代码生成
+    AI->>AI: 基于功能规范生成代码
     AI->>AI: 代码结构优化
     AI->>AI: 依赖关系管理
-    AI->>Dev: 返回可运行代码和文档
+    AI->>AI: 生成可运行代码和文档
     
-    Note over PM,User: 阶段3：迭代验证优化
-    Dev->>QA: 提供生成的代码和测试用例
-    QA->>QA: 自动化测试执行
-    QA->>QA: 性能基准测试
-    QA->>QA: 代码质量检查
-    QA->>User: 用户验收测试
-    User->>QA: 反馈测试结果
-    QA->>Dev: 提供验证报告和优化建议
+    Note over PM,AI: 阶段3：自动化验证优化
+    AI->>AI: 生成测试用例
+    AI->>AI: 自动化测试执行
+    AI->>AI: 性能基准测试
+    AI->>AI: 代码质量检查
+    AI->>AI: 用户验收测试模拟
+    AI->>PM: 提供验证报告和优化建议
     
-    Note over PM,User: 阶段4：持续改进循环
-    Dev->>Dev: 反馈收集和分析
-    Dev->>Dev: 规范更新和版本管理
-    Dev->>AI: 实现优化和重构
-    AI->>Dev: 返回改进的实现
-    Dev->>PM: 知识沉淀和分享
+    Note over PM,AI: 阶段4：持续改进循环
+    AI->>AI: 反馈收集和分析
+    AI->>AI: 规范更新和版本管理
+    AI->>AI: 实现优化和重构
+    AI->>AI: 知识沉淀和学习
+    AI->>PM: 改进成果交付
     
-    Note over PM,User: 循环迭代
-    PM->>Dev: 基于反馈提出新需求
+    Note over PM,AI: 循环迭代
+    PM->>AI: 基于反馈提出新需求
 ```
 
 #### 详细阶段说明
